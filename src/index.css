@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-battambang: 'Battambang', system-ui, -apple-system, sans-serif;
+    --font-koulen: 'Koulen', cursive, system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-battambang);
+  }
+}
+
+.font-koulen {
+  font-family: 'Koulen', cursive, system-ui, sans-serif;
+}
+
+.font-battambang {
+  font-family: 'Battambang', system-ui, -apple-system, sans-serif;
+}
+
+/* Buddhist Temple Theme Accents */
+.temple-border-pattern {
+  background-image: radial-gradient(#d97706 0.75px, transparent 0.75px);
+  background-size: 12px 12px;
+}
