@@ -49,83 +49,83 @@ export const QRCodeCard: React.FC<QRCodeCardProps> = ({ settings, standalonePage
   return (
     <section
       id="qr-code-section"
-      className={`bg-white rounded-2xl border border-stone-200 shadow-md p-5 sm:p-7 ${
+ className={`bg-white rounded-2xl border border-gray-200 p-5 sm:p-6 font-battambang ${
         standalonePage ? 'max-w-xl mx-auto' : ''
       }`}
     >
-      <div className="flex items-center gap-2.5 border-b border-stone-100 pb-4 mb-5">
-        <div className="p-2 rounded-xl bg-amber-100 text-amber-800">
-          <QrCode className="w-5 h-5" />
+ <div className="flex items-center gap-3 border-b border-gray-100 pb-4 mb-5">
+ <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 shrink-0 border border-gray-200">
+ <QrCode className="w-5 h-5" />
         </div>
         <div>
-          <h2 className="font-koulen text-xl sm:text-2xl text-stone-900 tracking-wide">
-            QR Code ទីតាំងវត្ត (សម្រាប់ស្កេន និងបោះពុម្ព)
+ <h2 className="font-koulen text-xl sm:text-2xl text-gray-800 tracking-wide leading-tight">
+            QR Code ទីតាំងវត្ត
           </h2>
-          <p className="text-xs text-stone-500">
-            សម្រាប់បោះពុម្ពលើបដា សំបុត្របុណ្យ ឬផ្សព្វផ្សាយលើបណ្តាញសង្គម
+ <p className="text-xs text-gray-500 mt-0.5">
+            សម្រាប់ស្កេនបើកផែនទី ឬបោះពុម្ពលើបដា និងសំបុត្របុណ្យ
           </p>
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center text-center">
+ <div className="flex flex-col items-center justify-center text-center">
         {/* Printable/Display Frame */}
         <div
           id="printable-qr-card"
           ref={qrWrapperRef}
-          className="p-6 rounded-2xl bg-white border-2 border-amber-800/30 shadow-sm max-w-sm w-full"
+ className="p-5 sm:p-6 rounded-2xl bg-white border border-gray-200 max-w-sm w-full"
         >
-          <div className="mb-3">
-            <h3 className="font-koulen text-lg text-amber-900 leading-tight">
+ <div className="mb-3">
+ <h3 className="font-koulen text-lg text-gray-800 leading-tight">
               {settings.temple_name_km}
             </h3>
-            <span className="text-[11px] text-stone-500 block uppercase tracking-wider mt-0.5">
+ <span className="text-[11px] text-gray-500 block uppercase tracking-wider mt-0.5 font-battambang">
               ស្កេនដើម្បីបើកផែនទី និងទិសដៅធ្វើដំណើរ
             </span>
           </div>
 
-          <div className="p-4 bg-amber-50/50 rounded-xl border border-amber-200/60 inline-block shadow-inner">
+ <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-200 inline-block">
             <QRCodeSVG
               value={currentUrl}
-              size={200}
+              size={190}
               level="H"
               includeMargin={false}
-              fgColor="#78350f"
+              fgColor="#374151"
               imageSettings={{
                 src: '/Logo.png',
                 x: undefined,
                 y: undefined,
-                height: 42,
-                width: 42,
+                height: 40,
+                width: 40,
                 excavate: true,
               }}
             />
           </div>
 
-          <div className="mt-3 text-xs text-stone-600 font-medium">
+ <div className="mt-3 text-xs text-gray-500 font-battambang">
             <span>គេហទំព័រផ្លូវការបង្ហាញទីតាំងវត្ត</span>
           </div>
         </div>
 
         {/* Action Controls */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3 w-full max-w-sm">
+ <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5 w-full max-w-sm">
           <button
             id="download-qr-btn"
             type="button"
             onClick={handleDownloadQR}
-            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-amber-700 hover:bg-amber-800 text-white font-semibold text-xs sm:text-sm shadow-sm transition active:scale-95 cursor-pointer min-h-[42px]"
+ className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gray-500 hover:bg-gray-600 text-white font-medium text-xs sm:text-sm transition active:scale-95 cursor-pointer min-h-[42px] whitespace-nowrap"
           >
-            <Download className="w-4 h-4 text-amber-200" />
-            <span>ទាញយករូប QR Code</span>
+ <Download className="w-4 h-4 text-gray-200" />
+            <span>ទាញយករូប QR</span>
           </button>
 
           <button
             id="print-qr-btn"
             type="button"
             onClick={handlePrint}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 font-medium text-xs sm:text-sm border border-stone-300 transition active:scale-95 cursor-pointer min-h-[42px]"
+ className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs sm:text-sm border border-gray-300 transition active:scale-95 cursor-pointer min-h-[42px]"
           >
-            <Printer className="w-4 h-4 text-stone-600" />
-            <span>បោះពុម្ព (Print)</span>
+ <Printer className="w-4 h-4 text-gray-500" />
+            <span>បោះពុម្ព</span>
           </button>
         </div>
       </div>

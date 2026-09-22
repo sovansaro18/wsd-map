@@ -16,8 +16,8 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ variant = 'h
   if (isInstalled) {
     if (variant === 'hero' || variant === 'card') {
       return (
-        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-950/80 border border-emerald-700/60 text-emerald-300 text-xs font-medium">
-          <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+ <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-950/80 border border-emerald-700/60 text-emerald-300 text-xs font-medium">
+ <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
           <span>កម្មវិធីបានដំឡើងរួចរាល់លើអេក្រង់ដើម</span>
         </div>
       );
@@ -44,9 +44,9 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ variant = 'h
           id="hero-pwa-install-btn"
           type="button"
           onClick={handleClick}
-          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-amber-800/80 hover:bg-amber-800 text-amber-100 hover:text-white px-5 py-3 text-sm font-semibold shadow-md transition-all active:scale-95 border border-amber-600/50 cursor-pointer min-h-[44px]"
+ className="inline-flex items-center justify-center gap-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 text-xs font-medium border border-gray-300 transition active:scale-95 cursor-pointer"
         >
-          <Smartphone className="w-4 h-4 text-amber-300" />
+ <Smartphone className="w-3.5 h-3.5 text-gray-500" />
           <span>{label || 'ដំឡើង App លើទូរស័ព្ទ'}</span>
         </button>
       )}
@@ -56,9 +56,9 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ variant = 'h
           id="card-pwa-install-btn"
           type="button"
           onClick={handleClick}
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-amber-700 hover:bg-amber-600 text-white px-5 py-2.5 text-sm font-semibold shadow-sm transition active:scale-98 cursor-pointer"
+ className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 text-xs font-medium transition active:scale-98 cursor-pointer"
         >
-          <Download className="w-4 h-4 text-amber-200" />
+ <Download className="w-3.5 h-3.5 text-gray-200" />
           <span>{label || 'ដំឡើងកម្មវិធីឥឡូវនេះ'}</span>
         </button>
       )}
@@ -68,9 +68,9 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ variant = 'h
           id="pill-pwa-install-btn"
           type="button"
           onClick={handleClick}
-          className="inline-flex items-center gap-1.5 rounded-full bg-amber-900/90 hover:bg-amber-800 text-amber-100 px-3 py-1 text-xs font-medium border border-amber-700/60 shadow-xs transition cursor-pointer"
+ className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 text-xs font-medium border border-gray-300 transition cursor-pointer"
         >
-          <Download className="w-3.5 h-3.5 text-amber-300" />
+ <Download className="w-3.5 h-3.5 text-gray-500" />
           <span>{label || 'ដំឡើង App'}</span>
         </button>
       )}
@@ -80,11 +80,11 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ variant = 'h
           id="header-pwa-install-btn"
           type="button"
           onClick={handleClick}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-amber-700/80 hover:bg-amber-700 text-amber-50 px-2.5 sm:px-3 py-1.5 text-xs font-semibold shadow-xs transition border border-amber-500/60 cursor-pointer min-h-[34px]"
+ className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 px-2.5 sm:px-3 py-1.5 text-xs font-medium border border-gray-300 transition cursor-pointer min-h-[34px] whitespace-nowrap shrink-0 active:scale-95 font-battambang"
           title="ដំឡើងកម្មវិធីលើទូរស័ព្ទ (Install PWA)"
         >
-          <Download className="w-3.5 h-3.5 text-amber-200" />
-          <span className="whitespace-nowrap">{label || 'ដំឡើង App'}</span>
+ <Download className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+ <span className="hidden sm:inline whitespace-nowrap">{label || 'ដំឡើង App'}</span>
         </button>
       )}
 

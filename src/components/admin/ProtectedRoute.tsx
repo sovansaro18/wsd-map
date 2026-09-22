@@ -55,9 +55,9 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childr
 
   if (checking) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] text-stone-500">
-        <Loader2 className="w-8 h-8 animate-spin text-amber-700 mb-3" />
-        <p className="text-sm font-battambang">កំពុងផ្ទៀងផ្ទាត់សិទ្ធិអ្នកគ្រប់គ្រង...</p>
+ <div className="flex flex-col items-center justify-center min-h-[50vh] text-gray-500">
+ <Loader2 className="w-7 h-7 animate-spin text-gray-600 mb-3" />
+ <p className="text-xs sm:text-sm font-battambang">កំពុងផ្ទៀងផ្ទាត់សិទ្ធិអ្នកគ្រប់គ្រង...</p>
       </div>
     );
   }

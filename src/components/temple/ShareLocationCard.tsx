@@ -57,17 +57,18 @@ export const ShareLocationCard: React.FC<ShareLocationCardProps> = ({ settings }
   };
 
   return (
-    <section id="share-location-card" className="bg-white rounded-2xl border border-stone-200 shadow-md p-5 sm:p-7">
-      <div className="flex items-center gap-2.5 border-b border-stone-100 pb-4 mb-5">
-        <div className="p-2 rounded-xl bg-amber-100 text-amber-800">
-          <Share2 className="w-5 h-5" />
+ <section id="share-location-card" className="bg-white rounded-2xl border border-gray-200 p-5 sm:p-6 font-battambang">
+      {/* Header */}
+ <div className="flex items-center gap-3 border-b border-gray-100 pb-4 mb-5">
+ <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 shrink-0 border border-gray-200">
+ <Share2 className="w-5 h-5" />
         </div>
         <div>
-          <h2 className="font-koulen text-xl sm:text-2xl text-stone-900 tracking-wide">
+ <h2 className="font-koulen text-xl sm:text-2xl text-gray-800 tracking-wide leading-tight">
             ចែករំលែកទីតាំងវត្ត
           </h2>
-          <p className="text-xs text-stone-500">
-            ចែករំលែកទៅកាន់មិត្តភក្តិ ក្រុមគ្រួសារ ឬបណ្តាញសង្គម ដើម្បីងាយស្រួលធ្វើដំណើរមកកាន់វត្ត
+ <p className="text-xs text-gray-500 mt-0.5">
+            ចែករំលែកទិសដៅ និងតំណភ្ជាប់ផ្លូវការទៅកាន់បណ្តាញសង្គម ឬមិត្តភក្តិ
           </p>
         </div>
       </div>
@@ -76,60 +77,79 @@ export const ShareLocationCard: React.FC<ShareLocationCardProps> = ({ settings }
       {copyMsg && (
         <div
           id="share-success-toast"
-          className="mb-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-semibold flex items-center gap-2 animate-in fade-in"
+ className="mb-4 p-3 rounded-xl bg-gray-100 border border-gray-300 text-gray-800 text-xs sm:text-sm font-medium flex items-center gap-2 animate-in fade-in"
         >
-          <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+ <Check className="w-4 h-4 text-gray-700 shrink-0" />
           <span>{copyMsg}</span>
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {/* Main Share Button */}
-        <button
-          id="web-share-btn"
-          type="button"
-          onClick={handleNativeShare}
-          className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-amber-700 hover:bg-amber-800 text-white font-semibold text-sm shadow-sm transition active:scale-95 cursor-pointer min-h-[44px]"
-        >
-          <Share2 className="w-4 h-4" />
-          <span>ចែករំលែកទីតាំង</span>
-        </button>
+      {/* Primary Action Button (Neutral Gray 50% - No pitch black) */}
+      <button
+        id="web-share-btn"
+        type="button"
+        onClick={handleNativeShare}
+ className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gray-500 hover:bg-gray-600 active:scale-98 text-white font-medium text-xs sm:text-sm transition cursor-pointer min-h-[44px] mb-4"
+      >
+ <Share2 className="w-4 h-4" />
+        <span>ចុចដើម្បីចែករំលែកទីតាំង (Share)</span>
+      </button>
 
-        {/* Copy Google Maps URL */}
-        <button
-          id="copy-maps-link-btn"
-          type="button"
-          onClick={handleCopyMapsLink}
-          className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 font-medium text-sm border border-stone-300 transition active:scale-95 cursor-pointer min-h-[44px]"
-        >
-          <MapPin className="w-4 h-4 text-amber-700" />
-          <span>ចម្លងតំណភ្ជាប់ Google Maps</span>
-        </button>
-
-        {/* Copy Website URL */}
-        <button
-          id="copy-web-link-btn"
-          type="button"
-          onClick={handleCopyLink}
-          className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 font-medium text-sm border border-stone-300 transition active:scale-95 cursor-pointer min-h-[44px]"
-        >
-          <Link2 className="w-4 h-4 text-stone-600" />
-          <span>ចម្លងតំណភ្ជាប់គេហទំព័រ</span>
-        </button>
-      </div>
-
-      {/* Share coordinates directly */}
-      {hasCoords && settings.latitude !== null && settings.longitude !== null && (
-        <div className="mt-4 pt-4 border-t border-stone-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-stone-600">
-          <span>កូអរដោនេផ្លូវការ៖ {settings.latitude.toFixed(6)}, {settings.longitude.toFixed(6)}</span>
+      {/* Orderly Structured Link & Coordinates Box */}
+ <div className="bg-gray-50 rounded-xl border border-gray-200 p-3.5 space-y-2.5">
+        {/* Row 1: Google Maps Navigation Link */}
+ <div className="flex items-center justify-between gap-2 p-2 rounded-lg bg-white border border-gray-200">
+ <div className="flex items-center gap-2 min-w-0">
+ <MapPin className="w-4 h-4 text-gray-500 shrink-0" />
+ <span className="text-xs text-gray-700 font-medium truncate">តំណភ្ជាប់ Google Maps</span>
+          </div>
           <button
-            onClick={handleCopyCoordinates}
-            className="text-amber-800 hover:text-amber-900 font-semibold underline underline-offset-4 cursor-pointer"
+            id="copy-maps-link-btn"
+            type="button"
+            onClick={handleCopyMapsLink}
+ className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 active:scale-95 text-gray-700 text-xs font-medium border border-gray-300 transition cursor-pointer shrink-0"
           >
-            ចម្លងកូអរដោនេ
+ <Copy className="w-3.5 h-3.5 text-gray-500" />
+            <span>ចម្លង</span>
           </button>
         </div>
-      )}
+
+        {/* Row 2: Web App Link */}
+ <div className="flex items-center justify-between gap-2 p-2 rounded-lg bg-white border border-gray-200">
+ <div className="flex items-center gap-2 min-w-0">
+ <Link2 className="w-4 h-4 text-gray-500 shrink-0" />
+ <span className="text-xs text-gray-700 font-medium truncate">តំណភ្ជាប់គេហទំព័រវត្ត</span>
+          </div>
+          <button
+            id="copy-web-link-btn"
+            type="button"
+            onClick={handleCopyLink}
+ className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 active:scale-95 text-gray-700 text-xs font-medium border border-gray-300 transition cursor-pointer shrink-0"
+          >
+ <Copy className="w-3.5 h-3.5 text-gray-500" />
+            <span>ចម្លង</span>
+          </button>
+        </div>
+
+        {/* Row 3: Official Coordinates */}
+        {hasCoords && settings.latitude !== null && settings.longitude !== null && (
+ <div className="flex items-center justify-between gap-2 p-2 rounded-lg bg-white border border-gray-200">
+ <div className="flex items-center gap-2 min-w-0">
+ <span className="text-[11px] text-gray-400 font-medium shrink-0">GPS:</span>
+ <code className="text-xs font-mono text-gray-800 font-semibold truncate">
+                {settings.latitude.toFixed(5)}, {settings.longitude.toFixed(5)}
+              </code>
+            </div>
+            <button
+              onClick={handleCopyCoordinates}
+ className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 active:scale-95 text-gray-700 text-xs font-medium border border-gray-300 transition cursor-pointer shrink-0"
+            >
+ <Copy className="w-3.5 h-3.5 text-gray-500" />
+              <span>ចម្លងកូអរដោនេ</span>
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 };

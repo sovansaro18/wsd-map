@@ -50,22 +50,22 @@ export default function App() {
 
   if (loading || !settings) {
     return (
-      <div id="app-loading" className="min-h-screen bg-stone-100 flex flex-col items-center justify-center p-4">
-        <div className="w-16 h-16 rounded-2xl bg-amber-900/80 p-1 shadow-xl border-2 border-amber-400/40 flex items-center justify-center animate-pulse overflow-hidden">
+ <div id="app-loading" className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
+ <div className="w-14 h-14 rounded-2xl bg-white p-2 border border-gray-200 flex items-center justify-center overflow-hidden">
           <img
             src="/Logo.png"
             alt="Loading"
-            className="w-full h-full object-contain"
+ className="w-full h-full object-contain"
             onError={(e) => {
               e.currentTarget.onerror = null;
               e.currentTarget.src = '/icon.svg';
             }}
           />
         </div>
-        <p className="mt-4 font-koulen text-lg text-amber-900 tracking-wide">
+ <p className="mt-4 font-koulen text-lg text-gray-800 tracking-wide">
           វត្តវារីបាការាម (ស្នាយដួច)
         </p>
-        <p className="text-xs text-stone-500 font-battambang mt-1">កំពុងផ្ទុកទិន្នន័យ...</p>
+ <p className="text-xs text-gray-500 font-battambang mt-1">កំពុងផ្ទុកទិន្នន័យ...</p>
       </div>
     );
   }
@@ -73,7 +73,7 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen bg-stone-100 flex flex-col text-stone-800 font-battambang selection:bg-amber-200 selection:text-amber-950">
+ <div className="min-h-screen bg-gray-100 flex flex-col text-gray-800 font-battambang selection:bg-gray-200 selection:text-gray-800">
         {/* Persistent Offline Status Badge */}
         <OfflineIndicator />
 
@@ -84,7 +84,7 @@ export default function App() {
         />
 
         {/* Main Routed Page Content */}
-        <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6">
+        <main className="flex-1 max-w-7xl w-full mx-auto px-2 sm:px-4 md:px-6 py-2">
           <Routes>
             <Route path="/" element={<HomePage settings={settings} gallery={gallery} />} />
             <Route path="/map" element={<MapPage settings={settings} />} />

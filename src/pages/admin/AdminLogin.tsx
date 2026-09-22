@@ -60,24 +60,24 @@ export const AdminLogin: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[75vh] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md bg-white rounded-3xl border border-stone-200 shadow-xl p-6 sm:p-8">
+    <div className="min-h-[75vh] flex items-center justify-center px-4 py-12 font-battambang">
+      <div className="w-full max-w-md bg-white rounded-2xl border border-gray-200 shadow-xs p-6 sm:p-8">
         <Link
           to="/"
-          className="inline-flex items-center gap-1.5 text-xs text-stone-500 hover:text-stone-800 transition mb-6 font-medium"
+          className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-800 transition mb-6 font-medium"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>ត្រឡប់ទៅគេហទំព័រដើម</span>
         </Link>
 
         <div className="text-center mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center mx-auto mb-3">
-            <Lock className="w-6 h-6" />
+          <div className="w-11 h-11 rounded-xl bg-gray-100 text-gray-600 flex items-center justify-center mx-auto mb-3 border border-gray-200">
+            <Lock className="w-5 h-5" />
           </div>
-          <h1 className="font-koulen text-2xl text-stone-900 tracking-wide">
+          <h1 className="font-koulen text-2xl text-gray-800 tracking-wide">
             ចូលផ្ទាំងគ្រប់គ្រង (Admin Login)
           </h1>
-          <p className="text-xs text-stone-500 mt-1 font-battambang">
+          <p className="text-xs text-gray-500 mt-1 font-battambang">
             សម្រាប់គណៈកម្មការ និងអ្នកគ្រប់គ្រងទីតាំងផ្លូវការរបស់វត្ត
           </p>
         </div>
@@ -91,7 +91,7 @@ export const AdminLogin: React.FC = () => {
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-stone-700 mb-1.5 font-battambang">
+            <label className="block text-xs font-medium text-gray-700 mb-1.5 font-battambang">
               អ៊ីមែល (Email)
             </label>
             <div className="relative">
@@ -102,14 +102,14 @@ export const AdminLogin: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@watsnaydouch.org"
-                className="w-full rounded-xl border border-stone-300 px-3.5 py-2.5 pl-10 text-sm focus:border-amber-600 focus:outline-none focus:ring-1 focus:ring-amber-600"
+                className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 pl-10 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
               />
-              <Mail className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+              <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-stone-700 mb-1.5 font-battambang">
+            <label className="block text-xs font-medium text-gray-700 mb-1.5 font-battambang">
               លេខសម្ងាត់ (Password)
             </label>
             <div className="relative">
@@ -120,9 +120,9 @@ export const AdminLogin: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full rounded-xl border border-stone-300 px-3.5 py-2.5 pl-10 text-sm focus:border-amber-600 focus:outline-none focus:ring-1 focus:ring-amber-600"
+                className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 pl-10 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
               />
-              <KeyRound className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+              <KeyRound className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
             </div>
           </div>
 
@@ -130,17 +130,17 @@ export const AdminLogin: React.FC = () => {
             id="admin-login-submit-btn"
             type="submit"
             disabled={loading}
-            className="w-full mt-2 rounded-xl bg-amber-700 hover:bg-amber-800 text-white py-3 text-sm font-semibold shadow-md transition active:scale-98 cursor-pointer disabled:opacity-50"
+            className="w-full mt-2 rounded-xl bg-gray-600 hover:bg-gray-700 active:scale-98 text-white py-2.5 text-xs sm:text-sm font-medium shadow-xs transition cursor-pointer disabled:opacity-50 min-h-[42px]"
           >
             {loading ? 'កំពុងផ្ទៀងផ្ទាត់...' : 'ចូលប្រព័ន្ធ (Sign In)'}
           </button>
         </form>
 
         {!isSupabaseConfigured && (
-          <div className="mt-6 p-3 rounded-xl bg-amber-50 border border-amber-200/80 text-[11px] text-amber-900 leading-relaxed font-battambang">
-            <span className="font-semibold block mb-0.5">គណនីគ្រប់គ្រងទូទៅ (Default Admin):</span>
-            <p>អ៊ីមែល៖ <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">admin@watsnaydouch.org</code></p>
-            <p>លេខសម្ងាត់៖ <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">temple123</code></p>
+          <div className="mt-6 p-3 rounded-xl bg-gray-50 border border-gray-200 text-[11px] text-gray-600 leading-relaxed font-battambang">
+            <span className="font-medium text-gray-800 block mb-0.5">គណនីគ្រប់គ្រងទូទៅ (Default Admin):</span>
+            <p>អ៊ីមែល៖ <code className="bg-gray-200/70 px-1 py-0.5 rounded font-mono text-gray-700">admin@watsnaydouch.org</code></p>
+            <p>លេខសម្ងាត់៖ <code className="bg-gray-200/70 px-1 py-0.5 rounded font-mono text-gray-700">temple123</code></p>
           </div>
         )}
       </div>

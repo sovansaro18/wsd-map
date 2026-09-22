@@ -25,15 +25,15 @@ export const PWAFeatureCard: React.FC = () => {
   return (
     <section
       id="pwa-feature-section"
-      className="bg-stone-900 text-white rounded-2xl p-6 sm:p-7 border border-stone-800 shadow-md"
+ className="bg-white text-gray-800 rounded-2xl p-6 sm:p-7 border border-gray-200 font-battambang"
     >
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-stone-800">
-        <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-xl bg-amber-900/80 p-1 shadow-sm border border-amber-600/40 flex items-center justify-center shrink-0 overflow-hidden">
+ <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-gray-100">
+ <div className="flex items-start gap-4">
+ <div className="w-12 h-12 rounded-xl bg-gray-50 p-1 border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
             <img
               src="/Logo.png"
               alt="Wat Snay Douch Logo"
-              className="w-full h-full object-contain"
+ className="w-full h-full object-contain"
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = '/icon.svg';
@@ -41,48 +41,48 @@ export const PWAFeatureCard: React.FC = () => {
             />
           </div>
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-stone-800 text-amber-300 text-[11px] font-semibold mb-1 border border-stone-700">
-              <Smartphone className="w-3 h-3" />
+ <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[11px] font-medium mb-1 border border-gray-200">
+ <Smartphone className="w-3 h-3 text-gray-500" />
               <span>កម្មវិធីទូរស័ព្ទ (PWA Web App)</span>
             </div>
-            <h2 className="font-koulen text-xl sm:text-2xl text-amber-100 tracking-wide">
+ <h2 className="font-koulen text-xl sm:text-2xl text-gray-800 tracking-wide">
               ដំឡើងកម្មវិធីវត្តវារីបាការាមលើទូរស័ព្ទ
             </h2>
-            <p className="text-xs sm:text-sm text-stone-400 font-battambang mt-0.5 max-w-xl">
+ <p className="text-xs sm:text-sm text-gray-500 font-battambang mt-0.5 max-w-xl">
               ដំឡើងកម្មវិធីដោយផ្ទាល់នៅលើ iPhone ឬ Android របស់អ្នក ងាយស្រួលរក្សាទុក និងបើកទិសដៅធ្វើដំណើរគ្រប់ពេលវេលា។
             </p>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+ <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
           <PWAInstallButton variant="card" label="ដំឡើង App លើទូរស័ព្ទ" />
           <Link
             to="/qr"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 px-4 py-2.5 text-sm font-semibold border border-stone-700 transition"
+ className="inline-flex items-center justify-center gap-2 rounded-xl bg-white hover:bg-gray-50 text-gray-700 px-4 py-2.5 text-xs sm:text-sm font-medium border border-gray-300 transition"
           >
-            <QrCode className="w-4 h-4 text-amber-400" />
+ <QrCode className="w-4 h-4 text-gray-500" />
             <span>ស្កេន QR</span>
           </Link>
         </div>
       </div>
 
       {/* Feature Highlights Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6">
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6">
         {benefits.map((b, idx) => {
           const Icon = b.icon;
           return (
             <div
               key={idx}
-              className="flex items-start gap-3 bg-stone-800/60 border border-stone-700/60 rounded-xl p-4"
+ className="flex items-start gap-3 bg-gray-50 border border-gray-200 rounded-xl p-4"
             >
-              <div className="p-2 rounded-lg bg-stone-900 text-amber-300 border border-stone-700 shrink-0">
-                <Icon className="w-4 h-4" />
+ <div className="p-2 rounded-lg bg-white text-gray-600 border border-gray-200 shrink-0">
+ <Icon className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="font-semibold text-sm text-amber-200 font-battambang">
+ <h3 className="font-semibold text-xs sm:text-sm text-gray-800 font-battambang">
                   {b.title}
                 </h3>
-                <p className="text-xs text-stone-400 mt-1 leading-relaxed">
+ <p className="text-xs text-gray-500 mt-1 leading-relaxed">
                   {b.desc}
                 </p>
               </div>
@@ -92,15 +92,15 @@ export const PWAFeatureCard: React.FC = () => {
       </div>
 
       {/* Quick assurance */}
-      <div className="mt-5 flex flex-wrap items-center justify-center gap-5 text-xs text-stone-400 border-t border-stone-800 pt-4 font-battambang">
-        <span className="inline-flex items-center gap-1.5">
-          <Check className="w-3.5 h-3.5 text-emerald-400" /> ឥតគិតថ្លៃ ១០០%
+ <div className="mt-5 flex flex-wrap items-center justify-center gap-5 text-xs text-gray-500 border-t border-gray-100 pt-4 font-battambang">
+ <span className="inline-flex items-center gap-1.5">
+ <Check className="w-3.5 h-3.5 text-gray-600" /> ឥតគិតថ្លៃ ១០០%
         </span>
-        <span className="inline-flex items-center gap-1.5">
-          <Check className="w-3.5 h-3.5 text-emerald-400" /> មិនចាំបាច់មានគណនី App Store / Play Store
+ <span className="inline-flex items-center gap-1.5">
+ <Check className="w-3.5 h-3.5 text-gray-600" /> មិនចាំបាច់មានគណនី App Store / Play Store
         </span>
-        <span className="inline-flex items-center gap-1.5">
-          <Check className="w-3.5 h-3.5 text-emerald-400" /> ធ្វើបច្ចុប្បន្នភាពទិន្នន័យដោយស្វ័យប្រវត្តិ
+ <span className="inline-flex items-center gap-1.5">
+ <Check className="w-3.5 h-3.5 text-gray-600" /> ធ្វើបច្ចុប្បន្នភាពទិន្នន័យដោយស្វ័យប្រវត្តិ
         </span>
       </div>
     </section>
