@@ -65,7 +65,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ latitude, long
         </div>
       )}
 
-      <div id="mobile-bottom-navigation-bar" className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white/95 backdrop-blur-md border-t border-gray-200 px-3 py-1.5 font-battambang">
+      <div id="mobile-bottom-navigation-bar" className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/95 backdrop-blur-md border-t border-gray-200 px-3 py-1.5 font-battambang">
         <div className="flex items-center justify-around max-w-md mx-auto">
           {/* Location Tab */}
           <Link

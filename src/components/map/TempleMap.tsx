@@ -95,9 +95,12 @@ export const TempleMap: React.FC<TempleMapProps> = ({
     const map = L.map(mapContainerRef.current, {
       center: defaultCenter,
       zoom: initialZoom,
-      zoomControl: true,
+      zoomControl: false, // Turn off default top-left control to prevent overlap
       attributionControl: false,
     });
+
+    // Add zoom control at bottom-right corner where it is clear and easy to touch
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
 
     applyTileLayer(map, mapType);
 
@@ -247,27 +250,48 @@ export const TempleMap: React.FC<TempleMapProps> = ({
 
   return (
     <div id="temple-map-wrapper" className="w-full">
-      {/* Map Container Element with Controls */}
-      <div id="temple-map-container" className="relative w-full rounded-2xl overflow-hidden border border-gray-200 bg-gray-100">
-        {/* Floating Top-Left: User Distance Action Button */}
-        {showUserLocationToggle && hasValidCoords && (
-          <div className="absolute top-3 left-3 z-[1000] font-battambang">
+      {/* Docked Control Bar: Neatly placed above map, NOT floating inside map canvas */}
+      <div id="temple-map-control-bar" className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 bg-gray-50 border-b border-gray-200 font-battambang">
+        {/* Left: User Location Action & Live Distance */}
+        <div className="flex items-center gap-2">
+          {showUserLocationToggle && hasValidCoords && (
             <button
               id="find-user-location-btn"
               type="button"
               onClick={requestUserLocation}
               disabled={locating}
-              className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md hover:bg-white text-gray-700 px-3 py-1.5 rounded-xl text-xs font-medium border border-gray-300 transition cursor-pointer active:scale-95 disabled:opacity-50 whitespace-nowrap"
+              className="flex items-center gap-1.5 bg-white hover:bg-gray-100 text-gray-700 px-2.5 py-1.5 rounded-xl text-xs font-medium border border-gray-300 transition cursor-pointer active:scale-95 disabled:opacity-50 whitespace-nowrap shadow-xs"
               title="ពិនិត្យចម្ងាយពីទីតាំងបច្ចុប្បន្នរបស់អ្នកមកកាន់វត្ត"
             >
               <Compass className={`w-3.5 h-3.5 text-gray-500 ${locating ? 'animate-spin' : ''}`} />
               <span>{locating ? 'កំពុងស្វែងរក...' : 'ចម្ងាយពីខ្ញុំ'}</span>
             </button>
-          </div>
-        )}
+          )}
 
-        {/* Floating Top-Right: Map Layer Switcher (Satellite first, then Street) */}
-        <div className="absolute top-3 right-3 z-[1000] inline-flex p-0.5 rounded-xl bg-white/95 backdrop-blur-md border border-gray-300 text-xs font-medium font-battambang">
+          {distanceKm !== null && (
+            <div
+              id="calculated-distance-badge"
+              className="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-gray-200 text-xs text-gray-700"
+            >
+              <Navigation className="w-3.5 h-3.5 text-gray-500" />
+              <span>
+                ចម្ងាយប្រហែល <strong className="text-gray-900 font-semibold">{toKhmerNumerals(distanceKm)}</strong> គ.ម
+              </span>
+            </div>
+          )}
+
+          {geoError && (
+            <span
+              id="geo-error-badge"
+              className="bg-rose-50 border border-rose-200 text-rose-800 px-2.5 py-1 rounded-lg text-xs"
+            >
+              {geoError}
+            </span>
+          )}
+        </div>
+
+        {/* Right: Map Layer Switcher (Satellite vs Street) */}
+        <div className="inline-flex p-0.5 rounded-xl bg-white border border-gray-300 text-xs font-medium">
           <button
             type="button"
             id="map-layer-hybrid-btn"
@@ -277,7 +301,7 @@ export const TempleMap: React.FC<TempleMapProps> = ({
                 ? 'bg-gray-700 text-white font-medium'
                 : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
             }`}
-            title="រូបភាពផ្កាយរណប (Satellite)"
+            title="រូបភាពផ្កាយរណបពិត (Satellite)"
           >
             <Eye className="w-3.5 h-3.5" />
             <span>ផ្កាយរណប</span>
@@ -297,12 +321,15 @@ export const TempleMap: React.FC<TempleMapProps> = ({
             <span>ផែនទី</span>
           </button>
         </div>
+      </div>
 
+      {/* Clean Map Container Element */}
+      <div id="temple-map-container" className="relative w-full overflow-hidden bg-gray-100">
         {/* Missing Coordinates Notification Over Map */}
         {!hasValidCoords && (
           <div
             id="map-unconfigured-overlay"
-            className="absolute inset-0 z-[1000] flex flex-col items-center justify-center p-6 bg-gray-800/80 backdrop-blur-xs text-center text-white"
+            className="absolute inset-0 z-30 flex flex-col items-center justify-center p-6 bg-gray-800/80 backdrop-blur-xs text-center text-white"
           >
             <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-3 border border-white/20">
               <MapPin className="w-6 h-6 text-white" />
@@ -313,31 +340,6 @@ export const TempleMap: React.FC<TempleMapProps> = ({
             <p className="text-xs md:text-sm text-gray-200 max-w-md mt-1.5 leading-relaxed font-battambang">
               អ្នកគ្រប់គ្រងវត្តមិនទាន់បានបញ្ចូលកូអរដោនេ GPS ផ្លូវការនៅឡើយទេ។ សូមរង់ចាំការបញ្ជាក់ ឬទាក់ទងមកវត្តផ្ទាល់។
             </p>
-          </div>
-        )}
-
-        {/* Distance notification pill */}
-        {distanceKm !== null && (
-          <div
-            id="calculated-distance-badge"
-            className="absolute bottom-3 left-3 z-[1000] bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-gray-200 text-xs text-gray-800 font-battambang"
-          >
-            <div className="flex items-center gap-2">
-              <Navigation className="w-4 h-4 text-gray-600" />
-              <span>
-                ចម្ងាយប្រហែល <strong className="text-gray-800 font-semibold text-sm">{toKhmerNumerals(distanceKm)}</strong> គីឡូម៉ែត្រ
-              </span>
-            </div>
-          </div>
-        )}
-
-        {/* Geo Error Warning */}
-        {geoError && (
-          <div
-            id="geo-error-badge"
-            className="absolute bottom-3 right-3 z-[1000] bg-rose-50 border border-rose-200 text-rose-800 px-3 py-1.5 rounded-lg text-xs"
-          >
-            {geoError}
           </div>
         )}
 

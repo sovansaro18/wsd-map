@@ -16,7 +16,7 @@ export const Header: React.FC<HeaderProps> = ({ templeNameKm }) => {
   ];
 
   return (
-    <header id="app-header" className="sticky top-0 z-40 bg-white/95 backdrop-blur-md text-gray-800 border-b border-gray-200">
+    <header id="app-header" className="sticky top-0 z-50 bg-white/95 backdrop-blur-md text-gray-800 border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Brand / Logo */}
         <Link to="/" className="flex items-center gap-2.5 min-w-0 group">

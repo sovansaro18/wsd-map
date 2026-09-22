@@ -18,7 +18,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
   }
 
   return (
-    <section id="contact-section" className="bg-white rounded-2xl border border-gray-200 p-5 sm:p-7 font-battambang">
+    <section id="contact-section" className="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6 font-battambang">
       <div className="flex items-center gap-3 border-b border-gray-100 pb-4 mb-5">
         <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 shrink-0 border border-gray-200">
           <Phone className="w-5 h-5" />
