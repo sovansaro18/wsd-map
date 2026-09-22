@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { isValidCoordinates, calculateDistanceKm, toKhmerNumerals, getGoogleMapsNavigationUrl } from '../../utils/navigation';
-import { Compass, Navigation, MapPin, AlertTriangle, ShieldCheck, Layers, Eye } from 'lucide-react';
+import { Compass, Navigation, MapPin, Layers, Eye } from 'lucide-react';
 
 interface TempleMapProps {
   latitude: number | null;
@@ -14,13 +14,12 @@ interface TempleMapProps {
   interactiveMode?: boolean; // admin can drag or click to place pin
 }
 
-type MapType = 'google_streets' | 'google_hybrid' | 'osm';
+type MapType = 'google_hybrid' | 'google_streets' | 'osm';
 
 export const TempleMap: React.FC<TempleMapProps> = ({
   latitude,
   longitude,
   templeNameKm,
-  isVerified,
   height = '420px',
   showUserLocationToggle = true,
   onCoordinatesChange,
@@ -32,7 +31,8 @@ export const TempleMap: React.FC<TempleMapProps> = ({
   const markerRef = useRef<L.Marker | null>(null);
   const userMarkerRef = useRef<L.Marker | null>(null);
 
-  const [mapType, setMapType] = useState<MapType>('google_streets');
+  // Default to Google Satellite Hybrid imagery as requested
+  const [mapType, setMapType] = useState<MapType>('google_hybrid');
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locating, setLocating] = useState(false);
   const [distanceKm, setDistanceKm] = useState<number | null>(null);
@@ -47,19 +47,19 @@ export const TempleMap: React.FC<TempleMapProps> = ({
     }
 
     let layer: L.TileLayer;
-    if (type === 'google_streets') {
-      // Google Maps Standard Road / Street layer
-      layer = L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-        maxZoom: 20,
-        subdomains: ['0', '1', '2', '3'],
-        attribution: '&copy; Google Maps',
-      });
-    } else if (type === 'google_hybrid') {
+    if (type === 'google_hybrid') {
       // Google Maps Real Satellite Imagery with Road & Place Labels (Hybrid)
       layer = L.tileLayer('https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
         maxZoom: 20,
         subdomains: ['0', '1', '2', '3'],
         attribution: '&copy; Google Maps Satellite',
+      });
+    } else if (type === 'google_streets') {
+      // Google Maps Standard Road / Street layer
+      layer = L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['0', '1', '2', '3'],
+        attribution: '&copy; Google Maps',
       });
     } else {
       // Fallback OpenStreetMap
@@ -89,7 +89,7 @@ export const TempleMap: React.FC<TempleMapProps> = ({
     // Default center: if valid coordinates use them, otherwise Cambodia center
     const defaultCenter: [number, number] = hasValidCoords
       ? [latitude as number, longitude as number]
-      : [12.5657, 104.991]; // Cambodia approximate center for country view
+      : [12.5657, 104.991]; // Cambodia approximate center
     const initialZoom = hasValidCoords ? 17 : 7;
 
     const map = L.map(mapContainerRef.current, {
@@ -101,22 +101,20 @@ export const TempleMap: React.FC<TempleMapProps> = ({
 
     applyTileLayer(map, mapType);
 
-    // Custom Temple Marker Icon using Official Temple Logo
+    // Official Temple Marker using Temple Logo
     const templeIcon = L.divIcon({
       className: 'custom-temple-marker',
       html: `
-        <div style="position: relative; display: flex; flex-direction: column; align-items: center; transform: translate(-50%, -100%);">
-          <div style="background-color: #ffffff; border: 3px solid #d97706; border-radius: 9999px; padding: 2px; box-: 0 6px 16px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; overflow: hidden; background: #fff;">
+        <div style="display: flex; flex-direction: column; align-items: center; cursor: pointer; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.45));">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: #ffffff; border: 2.5px solid #d97706; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 2px; box-sizing: border-box;">
             <img src="/Logo.png" alt="${templeNameKm}" style="width: 100%; height: 100%; object-fit: contain; display: block;" onerror="this.src='/icon.svg'" />
           </div>
-          <div style="width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 9px solid #d97706; margin-top: -1px;"></div>
-          <div style="margin-top: 3px; background: rgba(28,25,23,0.92); color: #fef08a; padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: bold; white-space: nowrap; font-family: 'Battambang', sans-serif; box-: 0 2px 8px rgba(0,0,0,0.35); border: 1px solid rgba(251,191,36,0.3);">
-            ${templeNameKm}
-          </div>
+          <div style="width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid #d97706; margin-top: -1px;"></div>
         </div>
       `,
-      iconSize: [52, 70],
-      iconAnchor: [26, 70],
+      iconSize: [48, 56],
+      iconAnchor: [24, 56],
+      popupAnchor: [0, -56],
     });
 
     if (hasValidCoords && latitude !== null && longitude !== null) {
@@ -126,12 +124,10 @@ export const TempleMap: React.FC<TempleMapProps> = ({
       }).addTo(map);
 
       marker.bindPopup(`
-        <div style="font-family: 'Battambang', sans-serif; padding: 4px; max-width: 240px;">
-          <h4 style="font-weight: bold; color: #9a3412; margin: 0 0 4px 0; font-size: 14px;">${templeNameKm}</h4>
-          <p style="font-size: 12px; color: #444; margin: 0 0 6px 0;">នេះគឺជាទីតាំងផ្លូវការរបស់វត្ត</p>
-          <p style="font-size: 11px; color: #666; margin: 0 0 8px 0;">កូអរដោនេ: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}</p>
-          <a href="${getGoogleMapsNavigationUrl(latitude, longitude)}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: #b45309; color: #fff; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: bold; width: 100%; text-align: center; box-sizing: border-box;">
-            🧭 បើកផ្លូវលើ Google Maps
+        <div style="font-family: 'Battambang', sans-serif; padding: 4px; text-align: center;">
+          <h4 style="font-weight: bold; color: #1f2937; margin: 0 0 6px 0; font-size: 13px;">${templeNameKm}</h4>
+          <a href="${getGoogleMapsNavigationUrl(latitude, longitude)}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: #4b5563; color: #fff; padding: 5px 12px; border-radius: 6px; text-decoration: none; font-size: 11px; font-weight: 500;">
+            បើក Google Maps
           </a>
         </div>
       `);
@@ -209,7 +205,7 @@ export const TempleMap: React.FC<TempleMapProps> = ({
             className: 'custom-user-marker',
             html: `
               <div style="position: relative; display: flex; align-items: center; justify-content: center; transform: translate(-50%, -50%);">
-                <div style="width: 18px; height: 18px; background-color: #2563eb; border: 3px solid #ffffff; border-radius: 9999px; box-: 0 0 10px rgba(37,99,235,0.6);"></div>
+                <div style="width: 18px; height: 18px; background-color: #2563eb; border: 3px solid #ffffff; border-radius: 9999px; box-shadow: 0 0 10px rgba(37,99,235,0.6);"></div>
                 <div style="position: absolute; width: 36px; height: 36px; background-color: rgba(37,99,235,0.25); border-radius: 9999px; animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
               </div>
             `,
@@ -250,55 +246,55 @@ export const TempleMap: React.FC<TempleMapProps> = ({
   };
 
   return (
- <div id="temple-map-wrapper" className="w-full">
-      {/* Map Container Element with Badges & Floating Controls */}
- <div id="temple-map-container" className="relative w-full rounded-2xl overflow-hidden border border-gray-200 bg-gray-100">
+    <div id="temple-map-wrapper" className="w-full">
+      {/* Map Container Element with Controls */}
+      <div id="temple-map-container" className="relative w-full rounded-2xl overflow-hidden border border-gray-200 bg-gray-100">
         {/* Floating Top-Left: User Distance Action Button */}
         {showUserLocationToggle && hasValidCoords && (
- <div className="absolute top-3 left-3 z-[1000] font-battambang">
+          <div className="absolute top-3 left-3 z-[1000] font-battambang">
             <button
               id="find-user-location-btn"
               type="button"
               onClick={requestUserLocation}
               disabled={locating}
- className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md hover:bg-white text-gray-700 px-3 py-1.5 rounded-xl text-xs font-medium border border-gray-300 transition cursor-pointer active:scale-95 disabled:opacity-50 whitespace-nowrap"
+              className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md hover:bg-white text-gray-700 px-3 py-1.5 rounded-xl text-xs font-medium border border-gray-300 transition cursor-pointer active:scale-95 disabled:opacity-50 whitespace-nowrap"
               title="ពិនិត្យចម្ងាយពីទីតាំងបច្ចុប្បន្នរបស់អ្នកមកកាន់វត្ត"
             >
- <Compass className={`w-3.5 h-3.5 text-gray-500 ${locating ? 'animate-spin' : ''}`} />
+              <Compass className={`w-3.5 h-3.5 text-gray-500 ${locating ? 'animate-spin' : ''}`} />
               <span>{locating ? 'កំពុងស្វែងរក...' : 'ចម្ងាយពីខ្ញុំ'}</span>
             </button>
           </div>
         )}
 
-        {/* Floating Top-Right: Map Layer Switcher (Streets vs Satellite) */}
- <div className="absolute top-3 right-3 z-[1000] inline-flex p-0.5 rounded-xl bg-white/95 backdrop-blur-md border border-gray-300 text-xs font-medium font-battambang">
-          <button
-            type="button"
-            id="map-layer-streets-btn"
-            onClick={() => setMapType('google_streets')}
- className={`px-2.5 py-1 rounded-lg transition cursor-pointer flex items-center gap-1 whitespace-nowrap ${
-              mapType === 'google_streets'
-                ? 'bg-gray-500 text-white font-medium '
-                : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
-            }`}
-            title="ផែនទីធម្មតា"
-          >
- <Layers className="w-3.5 h-3.5" />
-            <span>ផែនទី</span>
-          </button>
+        {/* Floating Top-Right: Map Layer Switcher (Satellite first, then Street) */}
+        <div className="absolute top-3 right-3 z-[1000] inline-flex p-0.5 rounded-xl bg-white/95 backdrop-blur-md border border-gray-300 text-xs font-medium font-battambang">
           <button
             type="button"
             id="map-layer-hybrid-btn"
             onClick={() => setMapType('google_hybrid')}
- className={`px-2.5 py-1 rounded-lg transition cursor-pointer flex items-center gap-1 whitespace-nowrap ${
+            className={`px-2.5 py-1 rounded-lg transition cursor-pointer flex items-center gap-1 whitespace-nowrap ${
               mapType === 'google_hybrid'
-                ? 'bg-gray-500 text-white font-medium '
+                ? 'bg-gray-700 text-white font-medium'
                 : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
             }`}
-            title="រូបភាពផ្កាយរណបពិត (Satellite)"
+            title="រូបភាពផ្កាយរណប (Satellite)"
           >
- <Eye className="w-3.5 h-3.5" />
+            <Eye className="w-3.5 h-3.5" />
             <span>ផ្កាយរណប</span>
+          </button>
+          <button
+            type="button"
+            id="map-layer-streets-btn"
+            onClick={() => setMapType('google_streets')}
+            className={`px-2.5 py-1 rounded-lg transition cursor-pointer flex items-center gap-1 whitespace-nowrap ${
+              mapType === 'google_streets'
+                ? 'bg-gray-700 text-white font-medium'
+                : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
+            }`}
+            title="ផែនទីធម្មតា"
+          >
+            <Layers className="w-3.5 h-3.5" />
+            <span>ផែនទី</span>
           </button>
         </div>
 
@@ -306,15 +302,15 @@ export const TempleMap: React.FC<TempleMapProps> = ({
         {!hasValidCoords && (
           <div
             id="map-unconfigured-overlay"
- className="absolute inset-0 z-[1000] flex flex-col items-center justify-center p-6 bg-gray-800/80 backdrop-blur-xs text-center text-white"
+            className="absolute inset-0 z-[1000] flex flex-col items-center justify-center p-6 bg-gray-800/80 backdrop-blur-xs text-center text-white"
           >
- <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-3 border border-white/20">
- <MapPin className="w-6 h-6 text-white" />
+            <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-3 border border-white/20">
+              <MapPin className="w-6 h-6 text-white" />
             </div>
- <h3 className="text-base md:text-lg font-semibold font-battambang text-white">
+            <h3 className="text-base md:text-lg font-semibold font-battambang text-white">
               ទីតាំងផ្លូវការមិនទាន់បានកំណត់
             </h3>
- <p className="text-xs md:text-sm text-gray-200 max-w-md mt-1.5 leading-relaxed font-battambang">
+            <p className="text-xs md:text-sm text-gray-200 max-w-md mt-1.5 leading-relaxed font-battambang">
               អ្នកគ្រប់គ្រងវត្តមិនទាន់បានបញ្ចូលកូអរដោនេ GPS ផ្លូវការនៅឡើយទេ។ សូមរង់ចាំការបញ្ជាក់ ឬទាក់ទងមកវត្តផ្ទាល់។
             </p>
           </div>
@@ -324,12 +320,12 @@ export const TempleMap: React.FC<TempleMapProps> = ({
         {distanceKm !== null && (
           <div
             id="calculated-distance-badge"
- className="absolute bottom-3 left-3 z-[1000] bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-gray-200 text-xs text-gray-800 font-battambang"
+            className="absolute bottom-3 left-3 z-[1000] bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-gray-200 text-xs text-gray-800 font-battambang"
           >
- <div className="flex items-center gap-2">
- <Navigation className="w-4 h-4 text-gray-600" />
+            <div className="flex items-center gap-2">
+              <Navigation className="w-4 h-4 text-gray-600" />
               <span>
- ចម្ងាយប្រហែល <strong className="text-gray-800 font-semibold text-sm">{toKhmerNumerals(distanceKm)}</strong> គីឡូម៉ែត្រ
+                ចម្ងាយប្រហែល <strong className="text-gray-800 font-semibold text-sm">{toKhmerNumerals(distanceKm)}</strong> គីឡូម៉ែត្រ
               </span>
             </div>
           </div>
@@ -339,7 +335,7 @@ export const TempleMap: React.FC<TempleMapProps> = ({
         {geoError && (
           <div
             id="geo-error-badge"
- className="absolute bottom-3 right-3 z-[1000] bg-rose-50 border border-rose-200 text-rose-800 px-3 py-1.5 rounded-lg text-xs"
+            className="absolute bottom-3 right-3 z-[1000] bg-rose-50 border border-rose-200 text-rose-800 px-3 py-1.5 rounded-lg text-xs"
           >
             {geoError}
           </div>

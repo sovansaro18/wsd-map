@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
-import { Lock, Mail, KeyRound, ArrowLeft, ShieldAlert, CheckCircle2 } from 'lucide-react';
+import { Lock, Mail, KeyRound, ArrowLeft, ShieldAlert } from 'lucide-react';
 
 export const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
@@ -15,7 +15,6 @@ export const AdminLogin: React.FC = () => {
     setLoading(true);
     setErrorMsg(null);
 
-    // If Supabase is configured, use official Supabase Auth
     if (isSupabaseConfigured && supabase) {
       try {
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -40,14 +39,12 @@ export const AdminLogin: React.FC = () => {
         setErrorMsg('មានបញ្ហាក្នុងការភ្ជាប់ទៅកាន់ប្រព័ន្ធផ្ទៀងផ្ទាត់');
       }
     } else {
-      // Local demo mode for development/preview when Supabase credentials are pending
       if (email === 'admin@watsnaydouch.org' && password === 'temple123') {
         localStorage.setItem('wsd_admin_authenticated', 'true');
         localStorage.setItem('wsd_admin_email', email);
         navigate('/admin');
         return;
       } else if (password.length >= 6) {
-        // Allow developer login with email and any 6+ char password in local sandbox
         localStorage.setItem('wsd_admin_authenticated', 'true');
         localStorage.setItem('wsd_admin_email', email);
         navigate('/admin');
@@ -61,13 +58,13 @@ export const AdminLogin: React.FC = () => {
 
   return (
     <div className="min-h-[75vh] flex items-center justify-center px-4 py-12 font-battambang">
-      <div className="w-full max-w-md bg-white rounded-2xl border border-gray-200 shadow-xs p-6 sm:p-8">
+      <div className="w-full max-w-md bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
         <Link
           to="/"
           className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-800 transition mb-6 font-medium"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>ត្រឡប់ទៅគេហទំព័រដើម</span>
+          <span>ត្រឡប់ក្រោយ</span>
         </Link>
 
         <div className="text-center mb-6">
@@ -75,11 +72,8 @@ export const AdminLogin: React.FC = () => {
             <Lock className="w-5 h-5" />
           </div>
           <h1 className="font-koulen text-2xl text-gray-800 tracking-wide">
-            ចូលផ្ទាំងគ្រប់គ្រង (Admin Login)
+            ចូលផ្ទាំងគ្រប់គ្រង
           </h1>
-          <p className="text-xs text-gray-500 mt-1 font-battambang">
-            សម្រាប់គណៈកម្មការ និងអ្នកគ្រប់គ្រងទីតាំងផ្លូវការរបស់វត្ត
-          </p>
         </div>
 
         {errorMsg && (
@@ -102,7 +96,7 @@ export const AdminLogin: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@watsnaydouch.org"
-                className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 pl-10 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 pl-10 text-sm focus:border-gray-500 focus:outline-none"
               />
               <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
             </div>
@@ -120,7 +114,7 @@ export const AdminLogin: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 pl-10 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 pl-10 text-sm focus:border-gray-500 focus:outline-none"
               />
               <KeyRound className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
             </div>
@@ -130,17 +124,15 @@ export const AdminLogin: React.FC = () => {
             id="admin-login-submit-btn"
             type="submit"
             disabled={loading}
-            className="w-full mt-2 rounded-xl bg-gray-600 hover:bg-gray-700 active:scale-98 text-white py-2.5 text-xs sm:text-sm font-medium shadow-xs transition cursor-pointer disabled:opacity-50 min-h-[42px]"
+            className="w-full mt-2 rounded-xl bg-gray-600 hover:bg-gray-700 active:scale-98 text-white py-2.5 text-xs sm:text-sm font-medium transition cursor-pointer disabled:opacity-50 min-h-[42px]"
           >
-            {loading ? 'កំពុងផ្ទៀងផ្ទាត់...' : 'ចូលប្រព័ន្ធ (Sign In)'}
+            {loading ? 'កំពុងផ្ទៀងផ្ទាត់...' : 'ចូលប្រព័ន្ធ'}
           </button>
         </form>
 
         {!isSupabaseConfigured && (
-          <div className="mt-6 p-3 rounded-xl bg-gray-50 border border-gray-200 text-[11px] text-gray-600 leading-relaxed font-battambang">
-            <span className="font-medium text-gray-800 block mb-0.5">គណនីគ្រប់គ្រងទូទៅ (Default Admin):</span>
-            <p>អ៊ីមែល៖ <code className="bg-gray-200/70 px-1 py-0.5 rounded font-mono text-gray-700">admin@watsnaydouch.org</code></p>
-            <p>លេខសម្ងាត់៖ <code className="bg-gray-200/70 px-1 py-0.5 rounded font-mono text-gray-700">temple123</code></p>
+          <div className="mt-6 p-3 rounded-xl bg-gray-50 border border-gray-200 text-[11px] text-gray-500 font-battambang">
+            <span>គណនីគំរូ៖ admin@watsnaydouch.org / temple123</span>
           </div>
         )}
       </div>
