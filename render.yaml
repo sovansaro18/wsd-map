@@ -5,7 +5,7 @@ services:
     runtime: node
     plan: free
     region: singapore # Closest region to Cambodia for fast latency
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     startCommand: node server.js
     healthCheckPath: /healthz
     autoDeploy: true
