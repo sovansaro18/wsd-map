@@ -1,0 +1,19 @@
+services:
+  # Render Web Service (Node.js + Express)
+  - type: web
+    name: wat-snay-douch-app
+    runtime: node
+    plan: free
+    region: singapore # Closest region to Cambodia for fast latency
+    buildCommand: npm install && npm run build
+    startCommand: node server.js
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Optional: set these if using Supabase backend
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
