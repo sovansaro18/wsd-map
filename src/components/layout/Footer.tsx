@@ -12,7 +12,7 @@ export const Footer: React.FC<FooterProps> = ({ templeNameKm }) => {
       <div className="max-w-7xl mx-auto px-3 sm:px-6">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-gray-100 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center p-0.5 shrink-0">
+            <div className="w-9 h-9 flex items-center justify-center shrink-0">
               <img
                 src="/Logo.png"
                 alt="WSD Logo"

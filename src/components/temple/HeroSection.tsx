@@ -44,7 +44,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ settings }) => {
     <section id="hero-section" className="rounded-2xl bg-white text-gray-800 border border-gray-200 p-4 sm:p-7 font-battambang">
       <div className="max-w-xl mx-auto text-center">
         {/* Temple Visual Logo */}
-        <div className="w-20 h-20 rounded-2xl bg-gray-50 p-2 border border-gray-200 mx-auto mb-3 flex items-center justify-center">
+        <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-3 flex items-center justify-center">
           <img
             src="/Logo.png"
             alt={settings.temple_name_km}
