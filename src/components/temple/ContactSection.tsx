@@ -9,9 +9,10 @@ interface ContactSectionProps {
 export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
   const hasPhone = Boolean(settings.phone && settings.phone.trim());
   const hasTelegram = Boolean(settings.telegram_url && settings.telegram_url.trim());
-  const hasFacebook = Boolean(settings.facebook_url && settings.facebook_url.trim());
+  const hasFacebookPage = Boolean(settings.facebook_url && settings.facebook_url.trim());
+  const hasFacebookPersonal = Boolean(settings.facebook_personal_url && settings.facebook_personal_url.trim());
 
-  const hasAnyContact = hasPhone || hasTelegram || hasFacebook;
+  const hasAnyContact = hasPhone || hasTelegram || hasFacebookPage || hasFacebookPersonal;
 
   if (!hasAnyContact) {
     return null;
@@ -28,15 +29,15 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* Phone Contact */}
         {hasPhone && (
           <a
             id="call-temple-btn"
             href={`tel:${settings.phone}`}
-            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-gray-600 hover:bg-gray-700 text-white font-medium text-xs sm:text-sm transition active:scale-98 min-h-[44px]"
+            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-gray-600 hover:bg-gray-700 text-white font-medium text-xs sm:text-sm transition active:scale-98 min-h-[48px]"
           >
-            <Phone className="w-4 h-4 text-gray-200" />
+            <Phone className="w-4 h-4 text-gray-200 shrink-0" />
             <div className="text-left">
               <span className="block text-[11px] text-gray-200">ទូរស័ព្ទ</span>
               <span className="font-semibold text-xs sm:text-sm">{settings.phone}</span>
@@ -51,9 +52,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
             href={settings.telegram_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs sm:text-sm border border-gray-300 transition active:scale-98 min-h-[44px]"
+            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs sm:text-sm border border-gray-300 transition active:scale-98 min-h-[48px]"
           >
-            <Send className="w-4 h-4 text-gray-500" />
+            <Send className="w-4 h-4 text-gray-500 shrink-0" />
             <div className="text-left">
               <span className="block text-[11px] text-gray-400">ឆាតតាម</span>
               <span className="font-semibold text-xs sm:text-sm">Telegram</span>
@@ -61,19 +62,36 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
           </a>
         )}
 
-        {/* Facebook Contact */}
-        {hasFacebook && (
+        {/* Facebook Page Contact */}
+        {hasFacebookPage && (
           <a
-            id="facebook-temple-btn"
+            id="facebook-page-btn"
             href={settings.facebook_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs sm:text-sm border border-gray-300 transition active:scale-98 min-h-[44px]"
+            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs sm:text-sm border border-gray-300 transition active:scale-98 min-h-[48px]"
           >
-            <Facebook className="w-4 h-4 text-gray-500" />
+            <Facebook className="w-4 h-4 text-gray-500 shrink-0" />
             <div className="text-left">
-              <span className="block text-[11px] text-gray-400">ទំព័រ</span>
-              <span className="font-semibold text-xs sm:text-sm">Facebook</span>
+              <span className="block text-[11px] text-gray-400">ទំព័រផ្លូវការ</span>
+              <span className="font-semibold text-xs sm:text-sm">Facebook វត្ត</span>
+            </div>
+          </a>
+        )}
+
+        {/* Facebook Personal Profile Contact */}
+        {hasFacebookPersonal && (
+          <a
+            id="facebook-personal-btn"
+            href={settings.facebook_personal_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs sm:text-sm border border-gray-300 transition active:scale-98 min-h-[48px]"
+          >
+            <Facebook className="w-4 h-4 text-gray-500 shrink-0" />
+            <div className="text-left">
+              <span className="block text-[11px] text-gray-400">អ្នកគ្រប់គ្រង</span>
+              <span className="font-semibold text-xs sm:text-sm">Facebook ផ្ទាល់ខ្លួន</span>
             </div>
           </a>
         )}

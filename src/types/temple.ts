@@ -13,6 +13,7 @@ export interface TempleSettings {
   phone?: string;
   telegram_url?: string;
   facebook_url?: string;
+  facebook_personal_url?: string;
   google_maps_url?: string;
   latitude: number | null;
   longitude: number | null;

@@ -546,13 +546,26 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Facebook Page Link
+                Facebook Page វត្ត (Official Page)
               </label>
               <input
                 type="text"
-                value={formData.facebook_url}
+                value={formData.facebook_url || ''}
                 onChange={(e) => setFormData((prev) => ({ ...prev, facebook_url: e.target.value }))}
                 placeholder="ឧ. https://facebook.com/watsnaydouch"
+                className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1">
+                Facebook ផ្ទាល់ខ្លួន (អ្នកគ្រប់គ្រងវត្ត)
+              </label>
+              <input
+                type="text"
+                value={formData.facebook_personal_url || ''}
+                onChange={(e) => setFormData((prev) => ({ ...prev, facebook_personal_url: e.target.value }))}
+                placeholder="ឧ. https://facebook.com/sovansaro"
                 className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm"
               />
             </div>

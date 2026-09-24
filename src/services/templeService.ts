@@ -1,8 +1,8 @@
 import { TempleSettings, GalleryPhoto } from '../types/temple';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
-const LOCAL_STORAGE_SETTINGS_KEY = 'wsd_temple_settings_v2';
-const LOCAL_STORAGE_GALLERY_KEY = 'wsd_temple_gallery_v2';
+const LOCAL_STORAGE_SETTINGS_KEY = 'wsd_temple_settings_v3';
+const LOCAL_STORAGE_GALLERY_KEY = 'wsd_temple_gallery_v3';
 
 const INITIAL_SETTINGS: TempleSettings = {
   id: 'a1111111-2222-3333-4444-555555555555',
@@ -16,9 +16,10 @@ const INITIAL_SETTINGS: TempleSettings = {
   commune_km: 'ជើងគួន',
   district_km: 'សំរោង',
   province_km: 'តាកែវ',
-  phone: '',
-  telegram_url: '',
-  facebook_url: '',
+  phone: '016 759 264',
+  telegram_url: 'https://t.me/sovansaro',
+  facebook_url: 'https://facebook.com/watsnaydouch',
+  facebook_personal_url: 'https://facebook.com/sovansaro',
   google_maps_url: 'https://maps.google.com/?q=11.12086,104.84524',
   latitude: 11.12086,
   longitude: 104.84524,
@@ -70,7 +71,12 @@ let memoryGalleryCache: GalleryPhoto[] | null = null;
 // Helper to safely clear space in localStorage if full
 function freeLocalStorageSpace(): void {
   try {
-    const keysToRemove = ['wsd_temple_gallery_v1', 'wsd_temple_settings_v1'];
+    const keysToRemove = [
+      'wsd_temple_gallery_v1',
+      'wsd_temple_settings_v1',
+      'wsd_temple_gallery_v2',
+      'wsd_temple_settings_v2',
+    ];
     keysToRemove.forEach((key) => {
       try {
         localStorage.removeItem(key);
@@ -88,23 +94,17 @@ function getLocalSettings(): TempleSettings {
     const raw = localStorage.getItem(LOCAL_STORAGE_SETTINGS_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (
-        parsed.latitude === null ||
-        parsed.latitude === undefined ||
-        parsed.longitude === null ||
-        parsed.longitude === undefined
-      ) {
-        const resolved: TempleSettings = {
-          ...INITIAL_SETTINGS,
-          ...parsed,
-          latitude: INITIAL_SETTINGS.latitude,
-          longitude: INITIAL_SETTINGS.longitude,
-          location_verified: true,
-        };
-        memorySettingsCache = resolved;
-        return resolved;
-      }
-      const resolved = { ...INITIAL_SETTINGS, ...parsed };
+      const resolved: TempleSettings = {
+        ...INITIAL_SETTINGS,
+        ...parsed,
+        phone: parsed.phone && parsed.phone.trim() ? parsed.phone : INITIAL_SETTINGS.phone,
+        telegram_url: parsed.telegram_url && parsed.telegram_url.trim() ? parsed.telegram_url : INITIAL_SETTINGS.telegram_url,
+        facebook_url: parsed.facebook_url && parsed.facebook_url.trim() ? parsed.facebook_url : INITIAL_SETTINGS.facebook_url,
+        facebook_personal_url: parsed.facebook_personal_url && parsed.facebook_personal_url.trim() ? parsed.facebook_personal_url : INITIAL_SETTINGS.facebook_personal_url,
+        latitude: parsed.latitude !== null && parsed.latitude !== undefined ? parsed.latitude : INITIAL_SETTINGS.latitude,
+        longitude: parsed.longitude !== null && parsed.longitude !== undefined ? parsed.longitude : INITIAL_SETTINGS.longitude,
+        location_verified: true,
+      };
       memorySettingsCache = resolved;
       return resolved;
     }
