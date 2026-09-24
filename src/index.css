@@ -1,7 +1,99 @@
 @import "tailwindcss";
 
+/* ========================================================
+   LOCAL OFFLINE-FIRST FONTS
+   Self-hosted from /fonts/ for zero-network latency & offline use
+   ======================================================== */
+
+/* Battambang (Khmer Body Font) */
+@font-face {
+  font-family: 'Battambang';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/battambang-400-khmer.woff2') format('woff2');
+  unicode-range: U+1780-17FF, U+19E0-19FF, U+200C-200D, U+25CC;
+}
+@font-face {
+  font-family: 'Battambang';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/battambang-400-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Battambang';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/battambang-700-khmer.woff2') format('woff2');
+  unicode-range: U+1780-17FF, U+19E0-19FF, U+200C-200D, U+25CC;
+}
+@font-face {
+  font-family: 'Battambang';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/battambang-700-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Koulen (Khmer Display Titles) */
+@font-face {
+  font-family: 'Koulen';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/koulen-400-khmer.woff2') format('woff2');
+  unicode-range: U+1780-17FF, U+19E0-19FF, U+200C-200D, U+25CC;
+}
+@font-face {
+  font-family: 'Koulen';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/koulen-400-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Rajdhani (English Letters & Numerals) */
+@font-face {
+  font-family: 'Rajdhani';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/rajdhani-400-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Rajdhani';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/rajdhani-500-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Rajdhani';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/rajdhani-600-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Rajdhani';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/rajdhani-700-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @layer base {
   :root {
+    --font-rajdhani: 'Rajdhani', sans-serif;
     --font-battambang: 'Battambang', system-ui, -apple-system, sans-serif;
     --font-koulen: 'Koulen', cursive, system-ui, sans-serif;
   }
@@ -12,7 +104,9 @@
   }
 
   body {
-    font-family: var(--font-battambang);
+    /* Rajdhani handles English & numbers with Medium weight, Battambang handles Khmer */
+    font-family: 'Rajdhani', 'Battambang', system-ui, -apple-system, sans-serif;
+    font-weight: 500;
     overflow-x: hidden;
   }
 }
@@ -71,12 +165,17 @@ body::-webkit-scrollbar {
   height: 0 !important;
 }
 
+.font-rajdhani {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
+}
+
 .font-koulen {
   font-family: 'Koulen', cursive, system-ui, sans-serif;
 }
 
 .font-battambang {
-  font-family: 'Battambang', system-ui, -apple-system, sans-serif;
+  font-family: 'Rajdhani', 'Battambang', system-ui, -apple-system, sans-serif;
 }
 
 /* Buddhist Temple Theme Accents */

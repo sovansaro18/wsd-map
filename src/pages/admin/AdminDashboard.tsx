@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TempleSettings, GalleryPhoto } from '../../types/temple';
+import { TempleSettings } from '../../types/temple';
 import { templeService } from '../../services/templeService';
 import { TempleMap } from '../../components/map/TempleMap';
 import { isValidCoordinates } from '../../utils/navigation';
@@ -18,9 +18,7 @@ import {
 
 interface AdminDashboardProps {
   settings: TempleSettings;
-  gallery: GalleryPhoto[];
   onSettingsUpdated: (updated: TempleSettings) => void;
-  onGalleryUpdated: (updated: GalleryPhoto[]) => void;
 }
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({
@@ -322,7 +320,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     }))
                   }
                   placeholder="ឧ. 13.095689"
-                  className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm font-mono focus:border-gray-500 focus:outline-none"
+                  className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-base font-rajdhani font-semibold focus:border-gray-500 focus:outline-none"
                 />
               </div>
 
@@ -341,7 +339,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     }))
                   }
                   placeholder="ឧ. 103.204561"
-                  className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm font-mono focus:border-gray-500 focus:outline-none"
+                  className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-base font-rajdhani font-semibold focus:border-gray-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -353,7 +351,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 value={coordsPasteInput}
                 onChange={(e) => setCoordsPasteInput(e.target.value)}
                 placeholder="បិទភ្ជាប់កូអរដោនេ ឬតំណភ្ជាប់ Google Maps (ឧ. 11.234567, 104.891234)"
-                className="flex-1 rounded-xl border border-gray-300 bg-white px-3.5 py-2 text-xs font-mono focus:border-gray-500 focus:outline-none"
+                className="flex-1 rounded-xl border border-gray-300 bg-white px-3.5 py-2 text-sm font-rajdhani font-medium focus:border-gray-500 focus:outline-none"
               />
               <button
                 type="button"

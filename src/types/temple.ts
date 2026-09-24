@@ -30,18 +30,6 @@ export interface TempleSettings {
   updated_at?: string;
 }
 
-export interface GalleryPhoto {
-  id: string;
-  image_url: string;
-  title_km: string;
-  description_km?: string;
-  category: 'gate' | 'building' | 'landmark' | 'entrance' | 'general';
-  is_cover: boolean;
-  display_order: number;
-  created_at?: string;
-  updated_at?: string;
-}
-
 export interface Coordinates {
   lat: number;
   lng: number;

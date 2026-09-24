@@ -77,7 +77,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ settings }) => {
         {/* GPS Coordinates (Clean & Minimal) */}
         {hasCoords && settings.latitude !== null && settings.longitude !== null && (
           <div className="mt-3 inline-flex items-center gap-2 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200 text-xs">
-            <code className="font-mono text-gray-700 font-medium">
+            <code className="font-rajdhani font-semibold text-sm tracking-wider text-gray-800">
               {settings.latitude.toFixed(5)}, {settings.longitude.toFixed(5)}
             </code>
             <button

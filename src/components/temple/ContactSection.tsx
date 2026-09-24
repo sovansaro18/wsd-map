@@ -40,7 +40,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
             <Phone className="w-4 h-4 text-gray-200 shrink-0" />
             <div className="text-left">
               <span className="block text-[11px] text-gray-200">ទូរស័ព្ទ</span>
-              <span className="font-semibold text-xs sm:text-sm">{settings.phone}</span>
+              <span className="font-rajdhani font-semibold tracking-wider text-sm sm:text-base">{settings.phone}</span>
             </div>
           </a>
         )}

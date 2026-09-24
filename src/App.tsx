@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { TempleSettings, GalleryPhoto } from './types/temple';
+import { TempleSettings } from './types/temple';
 import { templeService } from './services/templeService';
 import { Footer } from './components/layout/Footer';
 import { MobileBottomNav } from './components/layout/MobileBottomNav';
@@ -26,14 +26,10 @@ const ScrollToTop: React.FC = () => {
 
 function AppContent({
   settings,
-  gallery,
   setSettings,
-  setGallery,
 }: {
   settings: TempleSettings;
-  gallery: GalleryPhoto[];
   setSettings: (s: TempleSettings) => void;
-  setGallery: (g: GalleryPhoto[]) => void;
 }) {
   const location = useLocation();
 
@@ -64,9 +60,7 @@ function AppContent({
                 <ProtectedRoute>
                   <AdminDashboard
                     settings={settings}
-                    gallery={gallery}
                     onSettingsUpdated={(newSettings) => setSettings(newSettings)}
-                    onGalleryUpdated={(newGallery) => setGallery(newGallery)}
                   />
                 </ProtectedRoute>
               }
@@ -77,9 +71,7 @@ function AppContent({
                 <ProtectedRoute>
                   <AdminDashboard
                     settings={settings}
-                    gallery={gallery}
                     onSettingsUpdated={(newSettings) => setSettings(newSettings)}
-                    onGalleryUpdated={(newGallery) => setGallery(newGallery)}
                   />
                 </ProtectedRoute>
               }
@@ -106,20 +98,15 @@ function AppContent({
 export default function App() {
   // Synchronous immediate initialization (0ms load time)
   const [settings, setSettings] = useState<TempleSettings>(() => templeService.getInitialSettings());
-  const [gallery, setGallery] = useState<GalleryPhoto[]>(() => templeService.getInitialGallery());
 
   // Non-blocking background sync
   useEffect(() => {
     let isMounted = true;
     const syncData = async () => {
       try {
-        const [loadedSettings, loadedGallery] = await Promise.all([
-          templeService.getSettings(),
-          templeService.getGallery(),
-        ]);
+        const loadedSettings = await templeService.getSettings();
         if (isMounted) {
           setSettings(loadedSettings);
-          setGallery(loadedGallery);
         }
       } catch (err) {
         console.warn('Background sync note:', err);
@@ -136,9 +123,7 @@ export default function App() {
     <Router>
       <AppContent
         settings={settings}
-        gallery={gallery}
         setSettings={setSettings}
-        setGallery={setGallery}
       />
     </Router>
   );
