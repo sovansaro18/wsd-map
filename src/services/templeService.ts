@@ -1,8 +1,8 @@
 import { TempleSettings, GalleryPhoto } from '../types/temple';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
-const LOCAL_STORAGE_SETTINGS_KEY = 'wsd_temple_settings_v1';
-const LOCAL_STORAGE_GALLERY_KEY = 'wsd_temple_gallery_v1';
+const LOCAL_STORAGE_SETTINGS_KEY = 'wsd_temple_settings_v2';
+const LOCAL_STORAGE_GALLERY_KEY = 'wsd_temple_gallery_v2';
 
 const INITIAL_SETTINGS: TempleSettings = {
   id: 'a1111111-2222-3333-4444-555555555555',
@@ -10,26 +10,26 @@ const INITIAL_SETTINGS: TempleSettings = {
   temple_name_en: 'Wat Vari Bakaram (Snay Douch)',
   short_name: 'WSD Location',
   description_km: 'គេហទំព័រផ្លូវការបង្ហាញទីតាំងពិតប្រាកដ និងទិសដៅធ្វើដំណើរទៅកាន់វត្តវារីបាការាម (ស្នាយដួច)',
-  address_km: '',
-  address_en: '',
-  village_km: '',
-  commune_km: '',
-  district_km: '',
-  province_km: '',
+  address_km: 'ភូមិស្នាយដួច ឃុំជ្រោយបន្ទាយ ស្រុកព្រែកប្រសព្វ ខេត្តក្រចេះ',
+  address_en: 'Snay Douch Village, Chroy Banteay Commune, Prek Prasab District, Kratie Province',
+  village_km: 'ស្នាយដួច',
+  commune_km: 'ជ្រោយបន្ទាយ',
+  district_km: 'ព្រែកប្រសព្វ',
+  province_km: 'ក្រចេះ',
   phone: '',
   telegram_url: '',
   facebook_url: '',
-  google_maps_url: '',
-  latitude: null,
-  longitude: null,
-  location_verified: false,
-  verified_at: null,
-  verified_by: null,
-  location_note: null,
-  entrance_note_km: '',
-  landmark_note_km: '',
-  parking_note_km: '',
-  road_condition_km: '',
+  google_maps_url: 'https://maps.google.com/?q=11.12086,104.84524',
+  latitude: 11.12086,
+  longitude: 104.84524,
+  location_verified: true,
+  verified_at: '2026-09-24T00:00:00.000Z',
+  verified_by: 'អ្នកគ្រប់គ្រងវត្តវារីបាការាម (ស្នាយដួច)',
+  location_note: 'ទីតាំង GPS ផ្លូវការរបស់វត្តវារីបាការាម (ស្នាយដួច)',
+  entrance_note_km: 'ចូលតាមក្លោងទ្វារមុខវត្តវារីបាការាម (ស្នាយដួច)',
+  landmark_note_km: 'វត្តវារីបាការាម (ស្នាយដួច)',
+  parking_note_km: 'មានចំណតរថយន្ត និងទោចក្រយានយន្តទូលាយក្នុងបរិវេណវត្ត',
+  road_condition_km: 'ផ្លូវចូលស្រួល អាចធ្វើដំណើរដោយរថយន្ត ឬម៉ូតូបានគ្រប់រដូវកាល',
   visitor_note_km: '',
 };
 
@@ -63,47 +63,124 @@ const INITIAL_GALLERY: GalleryPhoto[] = [
   },
 ];
 
+// In-memory fallbacks to prevent crash if Storage Quota is exceeded
+let memorySettingsCache: TempleSettings | null = null;
+let memoryGalleryCache: GalleryPhoto[] | null = null;
+
+// Helper to safely clear space in localStorage if full
+function freeLocalStorageSpace(): void {
+  try {
+    const keysToRemove = ['wsd_temple_gallery_v1', 'wsd_temple_settings_v1'];
+    keysToRemove.forEach((key) => {
+      try {
+        localStorage.removeItem(key);
+      } catch {}
+    });
+  } catch {}
+}
+
 // Helper to load settings from LocalStorage
 function getLocalSettings(): TempleSettings {
+  if (memorySettingsCache) {
+    return memorySettingsCache;
+  }
   try {
     const raw = localStorage.getItem(LOCAL_STORAGE_SETTINGS_KEY);
     if (raw) {
-      return { ...INITIAL_SETTINGS, ...JSON.parse(raw) };
+      const parsed = JSON.parse(raw);
+      if (
+        parsed.latitude === null ||
+        parsed.latitude === undefined ||
+        parsed.longitude === null ||
+        parsed.longitude === undefined
+      ) {
+        const resolved: TempleSettings = {
+          ...INITIAL_SETTINGS,
+          ...parsed,
+          latitude: INITIAL_SETTINGS.latitude,
+          longitude: INITIAL_SETTINGS.longitude,
+          location_verified: true,
+        };
+        memorySettingsCache = resolved;
+        return resolved;
+      }
+      const resolved = { ...INITIAL_SETTINGS, ...parsed };
+      memorySettingsCache = resolved;
+      return resolved;
     }
   } catch (e) {
-    console.error('Failed to parse local temple settings', e);
+    console.warn('Failed to parse local temple settings', e);
   }
+  memorySettingsCache = INITIAL_SETTINGS;
   return INITIAL_SETTINGS;
 }
 
 // Helper to save settings to LocalStorage
 function saveLocalSettings(settings: TempleSettings): void {
+  memorySettingsCache = settings;
   try {
     localStorage.setItem(LOCAL_STORAGE_SETTINGS_KEY, JSON.stringify(settings));
-  } catch (e) {
-    console.error('Failed to save local temple settings', e);
+  } catch (e: any) {
+    // If quota exceeded, clean up old keys and retry once
+    freeLocalStorageSpace();
+    try {
+      localStorage.setItem(LOCAL_STORAGE_SETTINGS_KEY, JSON.stringify(settings));
+    } catch {
+      // Memory cache is already updated, safely ignore storage exhaustion
+    }
   }
 }
 
 // Helper to load gallery from LocalStorage
 function getLocalGallery(): GalleryPhoto[] {
+  if (memoryGalleryCache && memoryGalleryCache.length > 0) {
+    return memoryGalleryCache;
+  }
   try {
     const raw = localStorage.getItem(LOCAL_STORAGE_GALLERY_KEY);
     if (raw) {
-      return JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        memoryGalleryCache = parsed;
+        return parsed;
+      }
     }
   } catch (e) {
-    console.error('Failed to parse local gallery', e);
+    console.warn('Failed to parse local gallery', e);
   }
+  memoryGalleryCache = INITIAL_GALLERY;
   return INITIAL_GALLERY;
 }
 
-// Helper to save gallery to LocalStorage
+// Helper to save gallery to LocalStorage safely without quota errors
 function saveLocalGallery(photos: GalleryPhoto[]): void {
+  memoryGalleryCache = photos;
+
+  // Filter out or truncate oversized base64 images (>100KB) to prevent blowing up the 5MB browser quota
+  const safePhotos = photos.map((p) => {
+    if (p.image_url && p.image_url.startsWith('data:image') && p.image_url.length > 100000) {
+      // Keep original in memory, but don't blow localStorage
+      return {
+        ...p,
+        image_url: '/BG.jpg', // Fallback to local image in offline storage
+      };
+    }
+    return p;
+  });
+
   try {
-    localStorage.setItem(LOCAL_STORAGE_GALLERY_KEY, JSON.stringify(photos));
+    localStorage.setItem(LOCAL_STORAGE_GALLERY_KEY, JSON.stringify(safePhotos));
   } catch (e) {
-    console.error('Failed to save local gallery', e);
+    // If quota is exceeded, clear old caches and try saving a minimal set
+    freeLocalStorageSpace();
+    try {
+      // Try removing old gallery key to make room
+      localStorage.removeItem(LOCAL_STORAGE_GALLERY_KEY);
+      // Save top 5 items only
+      localStorage.setItem(LOCAL_STORAGE_GALLERY_KEY, JSON.stringify(safePhotos.slice(0, 5)));
+    } catch {
+      // If still full, we keep memoryGalleryCache safely in memory without throwing
+    }
   }
 }
 

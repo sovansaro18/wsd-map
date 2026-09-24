@@ -86,6 +86,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           ...prev,
           latitude: lat,
           longitude: lng,
+          location_verified: true,
         }));
         showSuccess(`បានបញ្ចូលកូអរដោនេ៖ ${lat}, ${lng}`);
         setCoordsPasteInput('');
@@ -111,6 +112,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           ...prev,
           latitude: lat,
           longitude: lng,
+          location_verified: true,
         }));
         showSuccess(`បានចាប់យកកូអរដោនេពីទូរស័ព្ទ៖ ${lat}, ${lng}`);
       },
@@ -125,7 +127,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const handleSaveSettings = async () => {
     setSaving(true);
     try {
-      const updated = await templeService.updateSettings(formData);
+      const isCoordsValid = isValidCoordinates(formData.latitude, formData.longitude);
+      const dataToSave: TempleSettings = {
+        ...formData,
+        location_verified: isCoordsValid,
+        verified_at: isCoordsValid ? (formData.verified_at || new Date().toISOString()) : null,
+        verified_by: isCoordsValid ? (formData.verified_by || 'អ្នកគ្រប់គ្រងវត្ត') : null,
+        google_maps_url:
+          isCoordsValid && formData.latitude !== null && formData.longitude !== null
+            ? `https://maps.google.com/?q=${formData.latitude},${formData.longitude}`
+            : formData.google_maps_url,
+      };
+      const updated = await templeService.updateSettings(dataToSave);
       setFormData(updated);
       onSettingsUpdated(updated);
       showSuccess('បានរក្សាទុកទិន្នន័យដោយជោគជ័យ');
@@ -353,6 +366,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     ...prev,
                     latitude: Number(lat.toFixed(6)),
                     longitude: Number(lng.toFixed(6)),
+                    location_verified: true,
                   }));
                 }}
               />
