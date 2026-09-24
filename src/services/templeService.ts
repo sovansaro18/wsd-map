@@ -1,7 +1,7 @@
 import { TempleSettings } from '../types/temple';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
-const LOCAL_STORAGE_SETTINGS_KEY = 'wsd_temple_settings_v3';
+const LOCAL_STORAGE_SETTINGS_KEY = 'wsd_temple_settings_v4';
 
 const INITIAL_SETTINGS: TempleSettings = {
   id: 'a1111111-2222-3333-4444-555555555555',
@@ -26,8 +26,6 @@ const INITIAL_SETTINGS: TempleSettings = {
   verified_at: '2026-09-24T00:00:00.000Z',
   verified_by: 'អ្នកគ្រប់គ្រងវត្តវារីបាការាម (ស្នាយដួច)',
   location_note: 'ទីតាំង GPS ផ្លូវការរបស់វត្តវារីបាការាម (ស្នាយដួច)',
-  entrance_note_km: 'ចូលតាមក្លោងទ្វារមុខវត្តវារីបាការាម (ស្នាយដួច)',
-  landmark_note_km: 'វត្តវារីបាការាម (ស្នាយដួច)',
   parking_note_km: 'មានចំណតរថយន្ត និងទោចក្រយានយន្តទូលាយក្នុងបរិវេណវត្ត',
   road_condition_km: 'ផ្លូវចូលស្រួល អាចធ្វើដំណើរដោយរថយន្ត ឬម៉ូតូបានគ្រប់រដូវកាល',
   visitor_note_km: '',
@@ -45,6 +43,7 @@ function freeLocalStorageSpace(): void {
       'wsd_temple_gallery_v2',
       'wsd_temple_settings_v2',
       'wsd_temple_gallery_v3',
+      'wsd_temple_settings_v3',
     ];
     keysToRemove.forEach((key) => {
       try {

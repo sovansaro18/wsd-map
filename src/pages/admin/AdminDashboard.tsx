@@ -460,45 +460,19 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           {/* Entrance & Road Info */}
           <div className="bg-white rounded-2xl border border-gray-200 p-5 sm:p-7 space-y-4">
             <h2 className="font-koulen text-xl text-gray-800">
-              ព័ត៌មានផ្លូវចូល
+              ព័ត៌មានការធ្វើដំណើរ
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  ផ្លូវចូល និងទិសដៅបត់
-                </label>
-                <textarea
-                  rows={3}
-                  value={formData.entrance_note_km}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, entrance_note_km: e.target.value }))}
-                  placeholder="ឧ. ធ្វើដំណើរតាមផ្លូវជាតិលេខ... ដល់ស្ពាន... បត់ស្តាំប្រហែល ៥០០ ម៉ែត្រ"
-                  className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm"
-                />
-              </div>
-
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1">
                   ស្ថានភាពផ្លូវ
                 </label>
                 <textarea
                   rows={3}
-                  value={formData.road_condition_km}
+                  value={formData.road_condition_km || ''}
                   onChange={(e) => setFormData((prev) => ({ ...prev, road_condition_km: e.target.value }))}
-                  placeholder="ឧ. ផ្លូវបេតុងស្អាត អាចធ្វើដំណើរបានគ្រប់រដូវកាល"
-                  className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  ចំណុចសម្គាល់
-                </label>
-                <input
-                  type="text"
-                  value={formData.landmark_note_km}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, landmark_note_km: e.target.value }))}
-                  placeholder="ឧ. ទល់មុខសាលាបឋមសិក្សា..."
+                  placeholder="ឧ. ផ្លូវចូលស្រួល អាចធ្វើដំណើរដោយរថយន្ត ឬម៉ូតូបានគ្រប់រដូវកាល"
                   className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm"
                 />
               </div>
@@ -507,11 +481,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 <label className="block text-xs font-semibold text-gray-700 mb-1">
                   ចំណតយានយន្ត
                 </label>
-                <input
-                  type="text"
-                  value={formData.parking_note_km}
+                <textarea
+                  rows={3}
+                  value={formData.parking_note_km || ''}
                   onChange={(e) => setFormData((prev) => ({ ...prev, parking_note_km: e.target.value }))}
-                  placeholder="ឧ. មានទីធ្លាចំណតរថយន្ត និងម៉ូតូធំទូលាយ"
+                  placeholder="ឧ. មានចំណតរថយន្ត និងទោចក្រយានយន្តទូលាយក្នុងបរិវេណវត្ត"
                   className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm"
                 />
               </div>
