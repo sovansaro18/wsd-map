@@ -13,6 +13,7 @@ import {
   CheckCircle2,
   AlertTriangle,
   Compass,
+  Home,
 } from 'lucide-react';
 
 interface AdminDashboardProps {
@@ -185,6 +186,17 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           >
             <Save className="w-4 h-4" />
             <span>{saving ? 'កំពុងរក្សាទុក...' : 'រក្សាទុក'}</span>
+          </button>
+
+          <button
+            id="admin-home-btn"
+            type="button"
+            onClick={() => navigate('/')}
+            className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 text-xs font-medium transition cursor-pointer min-h-[42px]"
+            title="ទៅកាន់គេហទំព័រដើម"
+          >
+            <Home className="w-4 h-4 text-gray-400" />
+            <span className="hidden sm:inline">ទំព័រដើម</span>
           </button>
 
           <button

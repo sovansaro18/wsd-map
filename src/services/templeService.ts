@@ -184,19 +184,45 @@ function saveLocalGallery(photos: GalleryPhoto[]): void {
   }
 }
 
+// Fast network timeout helper to avoid hanging on slow/dormant backend
+function withTimeout<T>(promise: Promise<T>, timeoutMs = 2500): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error('Network request timed out')), timeoutMs)
+    ),
+  ]);
+}
+
 export const templeService = {
+  /**
+   * Synchronously get initial settings for instant 0ms app start
+   */
+  getInitialSettings(): TempleSettings {
+    return getLocalSettings();
+  },
+
+  /**
+   * Synchronously get initial gallery for instant 0ms app start
+   */
+  getInitialGallery(): GalleryPhoto[] {
+    return getLocalGallery();
+  },
+
   /**
    * Fetch current official temple settings
    */
   async getSettings(): Promise<TempleSettings> {
     if (isSupabaseConfigured && supabase) {
       try {
-        const { data, error } = await supabase
+        const queryPromise = supabase
           .from('temple_settings')
           .select('*')
           .order('created_at', { ascending: true })
           .limit(1)
           .maybeSingle();
+
+        const { data, error } = await withTimeout<any>(Promise.resolve(queryPromise), 2500);
 
         if (error) {
           console.warn('Supabase fetch error, fallback to local storage:', error.message);
@@ -208,7 +234,7 @@ export const templeService = {
           return data as TempleSettings;
         }
       } catch (err) {
-        console.warn('Supabase query failed, fallback to local cache:', err);
+        console.warn('Supabase query failed/timed out, fallback to local cache:', err);
       }
     }
     return getLocalSettings();
@@ -276,17 +302,19 @@ export const templeService = {
   async getGallery(): Promise<GalleryPhoto[]> {
     if (isSupabaseConfigured && supabase) {
       try {
-        const { data, error } = await supabase
+        const queryPromise = supabase
           .from('temple_gallery')
           .select('*')
           .order('display_order', { ascending: true });
+
+        const { data, error } = await withTimeout<any>(Promise.resolve(queryPromise), 2500);
 
         if (!error && data && data.length > 0) {
           saveLocalGallery(data);
           return data as GalleryPhoto[];
         }
       } catch (err) {
-        console.warn('Supabase gallery fetch failed, using cached gallery:', err);
+        console.warn('Supabase gallery fetch failed/timed out, using cached gallery:', err);
       }
     }
     return getLocalGallery();

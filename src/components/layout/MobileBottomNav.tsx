@@ -70,11 +70,16 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ latitude, long
           {/* Location Tab */}
           <Link
             to="/"
-            className={`flex flex-col items-center justify-center py-1 px-4 rounded-xl transition ${
-              isLocationActive ? 'text-gray-900 font-bold' : 'text-gray-500 hover:text-gray-700'
+            onClick={() => {
+              if (isLocationActive) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+            className={`flex flex-col items-center justify-center py-1 px-4 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer ${
+              isLocationActive ? 'text-gray-900 font-bold scale-105' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            <MapPin className="w-5 h-5" />
+            <MapPin className="w-5 h-5 transition-transform duration-200" />
             <span className="text-[11px] mt-0.5 font-battambang">ទីតាំង</span>
           </Link>
 
@@ -85,7 +90,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ latitude, long
               target="_blank"
               rel="noopener noreferrer"
               onClick={handleNavigateClick}
-              className="flex items-center gap-1.5 py-2 px-4 rounded-xl bg-gray-700 hover:bg-gray-800 text-white font-medium active:scale-95 transition"
+              className="flex items-center gap-1.5 py-2 px-4 rounded-xl bg-gray-700 hover:bg-gray-800 text-white font-medium active:scale-95 transition-all duration-200 shadow-xs hover:shadow-md"
             >
               <Navigation className="w-4 h-4 text-gray-200" />
               <span className="text-xs font-koulen tracking-wide">បើកផ្លូវ</span>
@@ -94,7 +99,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ latitude, long
             <button
               type="button"
               onClick={handleNavigateClick}
-              className="flex items-center gap-1.5 py-2 px-4 rounded-xl bg-gray-100 text-gray-700 font-medium border border-gray-200"
+              className="flex items-center gap-1.5 py-2 px-4 rounded-xl bg-gray-100 text-gray-700 font-medium border border-gray-200 active:scale-95 transition-all duration-200"
             >
               <Navigation className="w-4 h-4 text-gray-500" />
               <span className="text-xs">បើកផ្លូវ</span>
@@ -104,11 +109,16 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ latitude, long
           {/* Contact Tab */}
           <Link
             to="/contact"
-            className={`flex flex-col items-center justify-center py-1 px-4 rounded-xl transition ${
-              isContactActive ? 'text-gray-900 font-bold' : 'text-gray-500 hover:text-gray-700'
+            onClick={() => {
+              if (isContactActive) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+            className={`flex flex-col items-center justify-center py-1 px-4 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer ${
+              isContactActive ? 'text-gray-900 font-bold scale-105' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            <Phone className="w-5 h-5" />
+            <Phone className="w-5 h-5 transition-transform duration-200" />
             <span className="text-[11px] mt-0.5 font-battambang">ទំនាក់ទំនង</span>
           </Link>
         </div>

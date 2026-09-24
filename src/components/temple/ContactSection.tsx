@@ -35,7 +35,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
           <a
             id="call-temple-btn"
             href={`tel:${settings.phone}`}
-            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-gray-600 hover:bg-gray-700 text-white font-medium text-xs sm:text-sm transition active:scale-98 min-h-[48px]"
+            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-gray-600 hover:bg-gray-700 text-white font-medium text-xs sm:text-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xs active:scale-98 min-h-[48px]"
           >
             <Phone className="w-4 h-4 text-gray-200 shrink-0" />
             <div className="text-left">
@@ -52,7 +52,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
             href={settings.telegram_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs sm:text-sm border border-gray-300 transition active:scale-98 min-h-[48px]"
+            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs sm:text-sm border border-gray-300 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xs active:scale-98 min-h-[48px]"
           >
             <Send className="w-4 h-4 text-gray-500 shrink-0" />
             <div className="text-left">
@@ -69,7 +69,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
             href={settings.facebook_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs sm:text-sm border border-gray-300 transition active:scale-98 min-h-[48px]"
+            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs sm:text-sm border border-gray-300 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xs active:scale-98 min-h-[48px]"
           >
             <Facebook className="w-4 h-4 text-gray-500 shrink-0" />
             <div className="text-left">
@@ -86,7 +86,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
             href={settings.facebook_personal_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs sm:text-sm border border-gray-300 transition active:scale-98 min-h-[48px]"
+            className="flex items-center justify-center gap-2.5 p-3.5 rounded-xl bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs sm:text-sm border border-gray-300 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xs active:scale-98 min-h-[48px]"
           >
             <Facebook className="w-4 h-4 text-gray-500 shrink-0" />
             <div className="text-left">
